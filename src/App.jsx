@@ -1,31 +1,72 @@
-import React, { useState } from "react";
-import "./App.css"; // Assuming you have an App.css file for the styles
-import Header from "./components/Header";
-import Service from "./components/Service";
-import Destination from "./components/Destination";
-import Booking from "./components/Booking";
-import Testimonial from "./components/Testimonial";
-import Brand from "./components/Brand";
-import Subscribe from "./components/Subscribe";
-import Footer from "./components/Footer";
-import Sidebar from "./components/Sidebar";
+import React, { Suspense, lazy } from "react";
+// import { Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
 
+const Home = lazy(() => import("./components/Home"));
+const Login = lazy(() => import("./components/Home/Login"));
+const Admin = lazy(() => import("./components/Admin"));
+const Sales = lazy(() => import("./components/Admin/Sales"));
+const UnAuthorized = lazy(() => import("./components/Admin/UnAuthorized"));
 
+const queryClient = new QueryClient();
+const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+const privateRoutes = [
+  {
+    path: "/admin",
+    element: <Admin />,
+    children: [
+      {
+        path: "/admin/sales",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Sales />
+          </Suspense>
+        ),
+        errorElement: <>error</>,
+      },
+    ],
+  },
+];
+
+const publicRoutes = [
+  {
+    path: "/login",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Login />
+      </Suspense>
+    ),
+    errorElement: <>error</>,
+  },
+  {
+    path: "/",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Home />
+      </Suspense>
+    ),
+    errorElement: <>error</>,
+  },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <UnAuthorized />
+      </Suspense>
+    ),
+    errorElement: <>error</>,
+  },
+];
 const App = () => {
-  const [hamVisible, setHamVisible] = useState(false);
-
   return (
-    <>
-      <Header />
-      <Sidebar />
-      <Service/>
-      <Destination />
-      <Booking />
-      <Testimonial />
-      <Brand />
-      <Subscribe/>
-      <Footer/>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider
+        router={createBrowserRouter(isLoggedIn ? privateRoutes : publicRoutes)}
+      />
+    </QueryClientProvider>
   );
 };
 

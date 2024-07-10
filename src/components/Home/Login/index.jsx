@@ -1,45 +1,59 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import loginImage from "../../../assets/images/tourLogin.png";
 import Logo from "../../../assets/images/Logo.png";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
-    // Replace with actual authentication logic (e.g., API call, etc.)
-    if (email === "admin@gmail.com" && password === "admin123") {
+    try {
+      const response = await axios.post("http://localhost:8080/api/login", {
+        username,
+        password,
+      });
       // Simulate successful authentication
-      // Set isLoggedIn to true in your actual application logic
-      localStorage.setItem("isLoggedIn", "true"); // Example: Using localStorage for simplicity
+      localStorage.setItem("token", response.data.accessToken); // Example: Using localStorage for simplicity
 
       // Redirect to admin dashboard
-      navigate("/admin/dashboard");
-    } else {
+      navigate("/admin");
+    } catch (error) {
       alert("Invalid credentials. Please try again.");
     }
   };
 
   const handleSignUp = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    // Replace with actual registration logic (e.g., API call, etc.)
+    e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match. Please try again.");
       return;
     }
-
-    // Simulate successful registration
-    // Here you would typically send the registration data to your backend
-    alert("Account created successfully!");
-    setIsSignUp(false); // Switch back to login view after successful registration
+  
+    try {
+      const response = await axios.post("http://localhost:8080/api/register", {
+        username: username,
+        password: password,
+        confirm_password: confirmPassword,
+      });
+  
+      if (response.status === 200) {
+        alert("Registration successful!");
+        setIsSignUp(false); // Switch back to login view after successful registration
+      } else {
+        alert("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Registration failed. Please try again.");
+    }
   };
+  
 
   return (
     <>
@@ -60,12 +74,12 @@ const Login = () => {
             </p>
             <form onSubmit={isSignUp ? handleSignUp : handleSignIn}>
               <div className="input-group">
-                <label className="label">Email Address</label>
+                <label className="label">UserName</label>
                 <input
                   className="input"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
               </div>

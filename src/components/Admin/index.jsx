@@ -1,10 +1,11 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import StaffMain from './Staff/StaffMain'
 
 const Admin = () => {
   return (
     <>
-    <div>Hello Admin</div>
+    <StaffMain/>
     <Outlet/>
     </>
   )

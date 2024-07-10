@@ -57,6 +57,10 @@ header {
 }
 .nav > ul > a{
   color: var(--clr-secondary-black);
+  transition: all 0.3s ease-in-out;
+}
+.nav > ul > a:hover{
+  color: var(--clr-primary-orange);
 }
 .nav--list > a {
   font-weight: var(--font-sm);

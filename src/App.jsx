@@ -7,10 +7,11 @@ import "./App.css";
 // Lazy-loaded components
 const Home = lazy(() => import("./components/Home"));
 const Login = lazy(() => import("./components/Home/Login"));
-const Admin = lazy(() => import("./components/Admin"));
 const Sales = lazy(() => import("./components/Admin/Sales"));
 const Staff = lazy(() => import("./components/Admin/Staff/StaffMain"));
 const UnAuthorized = lazy(() => import("./components/Admin/UnAuthorized"));
+const AdminLayout = lazy(() => import("./components/Admin/AdminLayout"));
+
 
 // Initialize Query Client
 const queryClient = new QueryClient();
@@ -18,8 +19,8 @@ const queryClient = new QueryClient();
 // Define private routes
 const privateRoutes = [
   {
-    path: "/admin",
-    element: <Admin/>,
+    path: "/admin/*",
+    element: <AdminLayout/>,
     children: [
       {
         path: "sales",
@@ -31,10 +32,10 @@ const privateRoutes = [
         errorElement: <>Error loading sales component</>,
       },
       {
-        path: "customer",
+        path: "*",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <Staff />
+            <UnAuthorized />
           </Suspense>
         ),
         errorElement: <>Error loading customer component</>,

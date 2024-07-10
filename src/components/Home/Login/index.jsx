@@ -14,7 +14,7 @@ const Login = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/login", {
+      const response = await axios.post("http://localhost:8080/api/auth/login", {
         username,
         password,
       });
@@ -26,6 +26,7 @@ const Login = () => {
     } catch (error) {
       alert("Invalid credentials. Please try again.");
     }
+    window.location.reload();
   };
 
   const handleSignUp = async (e) => {
@@ -36,7 +37,7 @@ const Login = () => {
     }
   
     try {
-      const response = await axios.post("http://localhost:8080/api/register", {
+      const response = await axios.post("http://localhost:8080/api/auth/register/user", {
         username: username,
         password: password,
         confirm_password: confirmPassword,

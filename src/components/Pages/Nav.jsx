@@ -25,21 +25,21 @@ const Nav = () => {
         <Link to="/destinations">
           <li className="nav--list">Destinations</li>
         </Link>
-        <li className="nav--list">
-          <a href="#destinations">Hotels</a>
-        </li>
-        <li className="nav--list">
-          <a href="#brands">Flights</a>
-        </li>
-        <li className="nav--list">
-          <a href="#bookings">Bookings</a>
-        </li>
-        <Link to="/login">
-          <li className="nav--list">Login</li>
+        <Link to="/hotels">
+          <li className="nav--list">Hotels</li>
         </Link>
-        <li className="nav--list signup">
-          <a href="#">Sign up</a>
-        </li>
+        <Link to="/about">
+          <li className="nav--list">About Us</li>
+        </Link>
+        <Link to="/bookings">
+          <li className="nav--list">Bookings</li>
+        </Link>
+        <Link to="/contact">
+          <li className="nav--list">Contact us</li>
+        </Link>
+        <Link to="/login">
+          <li className="nav--list signup">Login</li>
+        </Link>
         <li className="nav--list">
           <select id="option">
             <option value="EN">EN</option>

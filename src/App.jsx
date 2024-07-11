@@ -11,7 +11,7 @@ const Sales = lazy(() => import("./components/Admin/Sales"));
 const Staff = lazy(() => import("./components/Admin/Staff/StaffMain"));
 const UnAuthorized = lazy(() => import("./components/Admin/UnAuthorized"));
 const AdminLayout = lazy(() => import("./components/Admin/AdminLayout"));
-
+const Destinations = lazy(() => import("./components/Home/Destinations"));
 
 // Initialize Query Client
 const queryClient = new QueryClient();
@@ -60,6 +60,15 @@ const publicRoutes = [
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <Login />
+      </Suspense>
+    ),
+    errorElement: <>Error loading login component</>,
+  },
+  {
+    path: "/destinations",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Destinations />
       </Suspense>
     ),
     errorElement: <>Error loading login component</>,

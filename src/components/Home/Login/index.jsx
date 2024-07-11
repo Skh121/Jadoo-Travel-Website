@@ -132,7 +132,7 @@ const Login = () => {
               </div>
             )}
             {isSignUp && (
-              <div className="switch-group">
+              <div className="switch-group center-content">
                 <span className="divider"></span>
                 <div className="switch-group-signup">
                   <span className="or-text">Already have an account?</span>

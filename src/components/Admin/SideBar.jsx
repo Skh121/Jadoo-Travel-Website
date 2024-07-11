@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/images/Logo.png"
 import {
   ArrowLeftRightIcon,
   PackageOpen,
@@ -31,8 +32,8 @@ const navLinks = [
     icon: User,
   },
   {
-    link: "/admin/product",
-    label: "Product",
+    link: "/admin/destination",
+    label: "Destination",
     icon: House,
   },
   {
@@ -90,8 +91,7 @@ function SideBar() {
       <div className="logo-div">
         <FaHouseChimney className="logo-icon" />
         <span className={`logo-text ${!isExpanded ? "hidden" : ""}`}>
-          <span className="home">Home</span>
-          <span className="scape">Scape</span>
+          <img src={Logo}/>
         </span>
       </div>
 

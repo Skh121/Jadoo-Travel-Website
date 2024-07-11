@@ -47,15 +47,6 @@ const privateRoutes = [
 // Define public routes
 const publicRoutes = [
   {
-    path: "/login",
-    element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Login />
-      </Suspense>
-    ),
-    errorElement: <>Error loading login component</>,
-  },
-  {
     path: "/",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
@@ -63,6 +54,15 @@ const publicRoutes = [
       </Suspense>
     ),
     errorElement: <>Error loading home component</>,
+  },
+  {
+    path: "/login",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Login />
+      </Suspense>
+    ),
+    errorElement: <>Error loading login component</>,
   },
   {
     path: "*",
@@ -89,7 +89,9 @@ const App = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  const router = createBrowserRouter(isLoggedIn ? privateRoutes : publicRoutes);
+  const router = createBrowserRouter(
+    isLoggedIn ? [...privateRoutes, ...publicRoutes] : publicRoutes
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

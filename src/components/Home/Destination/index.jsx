@@ -7,6 +7,7 @@ import fly from "../../../assets/images/fly.png";
 const Destination = () => {
   return (
     <section id="destinations">
+      
         <p className="title">Top Selling</p>
         <h2 className="heading">Top Destinations</h2>
 

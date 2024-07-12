@@ -11,6 +11,7 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
@@ -18,34 +19,43 @@ const Login = () => {
         username,
         password,
       });
-      // Simulate successful authentication
-      localStorage.setItem("token", response.data.accessToken); // Example: Using localStorage for simplicity
-
-      // Redirect to admin dashboard
-      navigate("/admin");
+  
+      console.log("Login response:", response.data); // Check response data
+  
+      const { accessToken, userId, roles } = response.data;
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("roles", JSON.stringify(roles));
+  
+      console.log("Token set in localStorage:", localStorage.getItem("token")); // Debug localStorage
+      console.log("UserId set in localStorage:", localStorage.getItem("userId"));
+  
+      const role = roles.includes("ADMIN") ? "/admin/dashboard" : "/home";
+      navigate(role);
+      window.location.reload();
     } catch (error) {
+      console.error("Login error:", error);
       alert("Invalid credentials. Please try again.");
     }
-    window.location.reload();
   };
-
+  
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match. Please try again.");
       return;
     }
-  
+
     try {
       const response = await axios.post("http://localhost:8080/api/auth/register/user", {
         username: username,
         password: password,
         confirm_password: confirmPassword,
       });
-  
+
       if (response.status === 200) {
         alert("Registration successful!");
-        setIsSignUp(false); // Switch back to login view after successful registration
+        setIsSignUp(false);
       } else {
         alert("Registration failed. Please try again.");
       }

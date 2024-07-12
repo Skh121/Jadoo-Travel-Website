@@ -16,6 +16,7 @@ const Contact = lazy(() => import("./components/Home/Contact"));
 const Bookings = lazy(() => import("./components/Home/Bookings"));
 const About = lazy(() => import("./components/Home/About"));
 const Hotels = lazy(() => import("./components/Home/Hotels"));
+const DestinationDetails = lazy(() => import("./components/Pages/DestinationDetails"));
 
 // Initialize Query Client
 const queryClient = new QueryClient();
@@ -52,6 +53,15 @@ const privateRoutes = [
 const publicRoutes = [
   {
     path: "/",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Home />
+      </Suspense>
+    ),
+    errorElement: <>Error loading home component</>,
+  },
+  {
+    path: "/home",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <Home />
@@ -109,6 +119,15 @@ const publicRoutes = [
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <About/>
+      </Suspense>
+    ),
+    errorElement: <>Error loading login component</>,
+  },
+  {
+    path: "/destination/:destinationId",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <DestinationDetails/>
       </Suspense>
     ),
     errorElement: <>Error loading login component</>,

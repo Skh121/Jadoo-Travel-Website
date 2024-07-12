@@ -1,8 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from 'axios';
 import Footer from "../Footer";
 import Nav from "../../Pages/Nav";
 
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [responseMessage, setResponseMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    if (!token) {
+      alert('Please log in to send a message');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/contact',
+        {
+          name,
+          email,
+          message,
+          customerId: userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setResponseMessage('Message sent successfully');
+        setName('');
+        setEmail('');
+        setMessage('');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setResponseMessage('Failed to send message. Please try again.');
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'message') {
+      setMessage(value);
+    }
+  };
+
   return (
     <>
       <div className="destinations-nav">
@@ -27,7 +81,7 @@ const Contact = () => {
               <strong>Address:</strong> Kathmandu, Nepal
             </p>
           </div>
-          <form className="contact-form">
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Name:</label>
               <input
@@ -35,6 +89,8 @@ const Contact = () => {
                 id="name"
                 name="name"
                 placeholder="Your Name"
+                value={name}
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -45,6 +101,8 @@ const Contact = () => {
                 id="email"
                 name="email"
                 placeholder="Your Email"
+                value={email}
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -54,12 +112,15 @@ const Contact = () => {
                 id="message"
                 name="message"
                 placeholder="Your Message"
+                value={message}
+                onChange={handleInputChange}
                 required
               ></textarea>
             </div>
             <button type="submit" className="submit-button">
               Send Message
             </button>
+            {responseMessage && <p className="response-message">{responseMessage}</p>}
           </form>
         </div>
       </div>

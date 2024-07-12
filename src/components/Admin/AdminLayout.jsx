@@ -12,7 +12,7 @@ const Payment = lazy(() => import('./Payment'));
 const AddAdmin = lazy(() => import('./AddAdmin'));
 
 const AdminLayout = () => (
-  <div className="admin-layout dark-mode"> {/* Apply the dark-mode class conditionally if needed */}
+  <div className="admin-layout dark-mode">
     <Suspense fallback={<div className="loading">Loading Sidebar...</div>}>
       <div className="sidebar-wrapper">
         <SideBar />

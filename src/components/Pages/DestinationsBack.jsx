@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Destination = () => {
+const DestinationsBack = () => {
   const [destinations, setDestinations] = useState([]);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDestinations();
@@ -19,10 +21,13 @@ const Destination = () => {
     }
   };
 
+  const handleShowDetails = (destinationId) => {
+    navigate(`/destination/${destinationId}`);
+  };
+
   return (
     <div>
       {message && <p>{message}</p>}
-
       <div className="destinations-container">
         <h2 className="destinations-title">All Destinations</h2>
         <div className="destinations-grid">
@@ -42,8 +47,16 @@ const Destination = () => {
               </div>
               <div className="destination-content">
                 <h3 className="destination-title">{destination.destinationName}</h3>
-                <p className="destination-details">{destination.details}</p>
                 <p className="destination-price">Price: ${destination.price}</p>
+                <div className="destination-buttons">
+                  <button
+                    className="destination-button show-details"
+                    onClick={() => handleShowDetails(destination.destinationId)}
+                  >
+                    Show Details
+                  </button>
+                  <button className="destination-button book">Book</button>
+                </div>
               </div>
             </div>
           ))}
@@ -53,4 +66,4 @@ const Destination = () => {
   );
 };
 
-export default Destination;
+export default DestinationsBack;

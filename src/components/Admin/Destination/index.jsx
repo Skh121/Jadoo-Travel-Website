@@ -102,8 +102,7 @@ const Destination = () => {
 
           <div className="form-group">
             <label htmlFor="details">Details:</label>
-            <input
-              type="text"
+            <textarea
               id="details"
               name="details"
               value={destinationsData.details}
@@ -148,7 +147,7 @@ const Destination = () => {
           {destinations.map((destination) => (
             <div key={destination.destinationId} className="destination-card">
               <h3 className="destination-title">{destination.destinationName}</h3>
-              <p className="destination-details">{destination.details}</p>
+              {/* <p className="destination-details">{destination.details}</p> */}
               <p className="destination-price">Price: ${destination.price}</p>
               {destination.imageData && (
                 <div className='destination-image-card'>

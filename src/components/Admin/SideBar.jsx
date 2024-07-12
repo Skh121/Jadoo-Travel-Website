@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/images/Logo.png"
 import {
@@ -8,12 +9,12 @@ import {
   LayoutDashboard,
   HelpCircleIcon,
   House,
-  Plus,
   PlusCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import { FaHouseChimney } from "react-icons/fa6";
+import { BiLogOut } from "react-icons/bi";
 
 const variants = {
   expanded: { width: "220px" },
@@ -62,6 +63,17 @@ function SideBar() {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
+    localStorage.removeItem("roles");
+    setIsLoggedIn(false);
+    navigate("/");
+    console.log("User logged out");
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -85,13 +97,13 @@ function SideBar() {
         onClick={() => setIsExpanded(!isExpanded)}
         className="toggle-button"
       >
-        <FaArrowRight className="text-white" />
+        <FaArrowRight className="toggle-icon" />
       </div>
 
       <div className="logo-div">
         <FaHouseChimney className="logo-icon" />
         <span className={`logo-text ${!isExpanded ? "hidden" : ""}`}>
-          <img src={Logo}/>
+          <img src={Logo} alt="Logo" />
         </span>
       </div>
 
@@ -111,6 +123,15 @@ function SideBar() {
             </Link>
           </div>
         ))}
+        <div
+          onClick={handleLogout}
+          className={`logout-section ${!isExpanded ? "collapsed" : ""}`}
+        >
+          <BiLogOut className="logout-icon" />
+          <button className={`logout-button ${!isExpanded ? "hidden" : ""}`} onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
     </motion.div>
   );

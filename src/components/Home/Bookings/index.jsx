@@ -1,10 +1,9 @@
 import React from 'react'
-import Checkout from '../../Pages/Checkout'
+import BookingPage from '../../Pages/BookingPage'
 
 const Bookings = () => {
   return (
-    <Checkout/>
+    <BookingPage/>
   )
 }
-
 export default Bookings

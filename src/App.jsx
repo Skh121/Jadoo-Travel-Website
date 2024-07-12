@@ -1,7 +1,8 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BookingProvider } from "../src/components/config/BookingContext"
 import "./App.css";
 
 // Lazy-loaded components
@@ -163,7 +164,9 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <BookingProvider>
+        <RouterProvider router={router} />
+      </BookingProvider>
     </QueryClientProvider>
   );
 };

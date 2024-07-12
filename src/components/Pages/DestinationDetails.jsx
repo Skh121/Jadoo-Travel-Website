@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../Home/Footer";
 import Nav from "./Nav";
+import { BookingContext } from "../../components/config/BookingContext";
 
 const DestinationDetails = () => {
   const { destinationId } = useParams();
+  const { bookingItems, addToBooking } = useContext(BookingContext);
   const [destination, setDestination] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDestinationDetails();
@@ -23,8 +26,32 @@ const DestinationDetails = () => {
     }
   };
 
-  const handleBookNow = () => {
-    alert(`${destination.destinationName} has been added to Bookings!`);
+  const handleBookNow = async () => {
+    try {
+      if (destination) {
+        // Check if the destination ID already exists in bookingItems
+        const alreadyAdded = bookingItems.some(
+          (item) => item.id === destination.destinationId
+        );
+
+        if (alreadyAdded) {
+          alert(`${destination.destinationName} is already added to Bookings!`);
+          navigate("/bookings");
+        } else {
+          await addToBooking({
+            id: destination.destinationId,
+            name: destination.destinationName,
+            price: destination.price,
+            numberOfPeople: 1, // Changed from quantity to numberOfPeople
+            image: `http://localhost:8080/destination/image/${destination.destinationId}`,
+          });
+          alert(`${destination.destinationName} has been added to Bookings!`);
+          navigate("/bookings");
+        }
+      }
+    } catch (error) {
+      console.error("Failed to add booking:", error);
+    }
   };
 
   if (!destination) {

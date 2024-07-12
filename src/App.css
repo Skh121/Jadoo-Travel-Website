@@ -2004,7 +2004,7 @@ textarea {
 }
 
 /* Booking Items */
-.booking-item {
+/* .booking-item {
   display: flex;
   align-items: center;
   padding: 12px;
@@ -2040,101 +2040,262 @@ textarea {
   &:hover {
     background-color: #e39200;
   }
-}
+} */
 
-/* checkout */
-.checkout-container {
-  display: flex;
-  justify-content: space-between;
+/* Booking page */
+.booking-page-container {
   padding: 20px;
 }
 
-.order-summary {
-  width: 60%;
-}
-
-.order-summary h2 {
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-.item {
+.booking-table .booking-table-header th,
+.booking-table .booking-table-body td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.booking-table .booking-table-header th {
+  background-color: #f5f5f5;
+}
+
+.booking-table .booking-item-details {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
 }
 
-.item img {
-  width: 80px;
-  height: 80px;
-  margin-right: 20px;
+.booking-table .booking-item-image {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
 }
 
-.item-details p {
-  margin: 5px 0;
+.booking-table .booking-item-name {
+  margin-left: 10px;
 }
 
-.item-price {
-  margin-left: auto;
-  text-align: right;
+.booking-table .booking-item-price,
+.booking-table .booking-item-number-of-people,
+.booking-table .booking-item-subtotal,
+.booking-table .booking-item-remove {
+  text-align: center;
 }
 
-.item-price p {
-  margin: 5px 0;
+.booking-table .quantity-button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #ddd;
+  border: none;
+  border-radius: 3px;
 }
 
-.original-price {
-  text-decoration: line-through;
+.booking-table .quantity-button:focus {
+  outline: none;
+}
+
+.booking-table .quantity-number {
+  font-weight: lighter;
+  color: #007bff;
+}
+
+.booking-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.booking-buttons .clear-cart-button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  border-radius: 3px;
+  background-color: #f44336;
+  color: white;
+}
+
+.booking-buttons .clear-cart-button:hover {
+  opacity: 0.8;
+}
+
+.booking-table .delete-icon {
   color: red;
+  cursor: pointer;
+  font-size: 1.2em;
 }
 
-.item-quantity {
-  margin-left: 20px;
+.booking-table .delete-icon:hover {
+  color: darkred;
 }
 
-.payment-summary {
-  width: 35%;
-  background-color: #f9f9f9;
+/* Payment Modal */
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-modal {
+  background: white;
   padding: 20px;
   border-radius: 8px;
+  width: 400px;
+  max-width: 100%;
 }
 
-.payment-summary h2 {
-  margin-bottom: 20px;
+.payment-modal h2 {
+  margin-top: 0;
 }
 
-.transaction-code p,
-.coupon-code p,
-.order-summary-details p,
-.sale-expiry p {
-  margin: 10px 0;
-}
-
-.coupon-code {
+.payment-modal form {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.coupon-code input {
-  width: 70%;
-  padding: 10px;
+.payment-modal label {
+  margin-bottom: 15px;
+}
+
+.payment-modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.coupon-code button {
-  padding: 10px;
+.payment-modal .expiry-date {
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-modal .expiry-date input {
+  width: 45%;
+}
+
+.payment-modal button {
   background-color: #007bff;
-  color: #fff;
+  color: white;
+  padding: 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.sale-expiry p {
-  color: red;
-  font-weight: bold;
+.payment-modal button:hover {
+  background-color: #0056b3;
 }
+
+
+.payment-modal h2 {
+  margin-top: 0;
+}
+
+.payment-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-modal label {
+  margin-bottom: 15px;
+}
+
+.payment-modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.payment-modal .expiry-date {
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-modal .expiry-date input {
+  width: 45%;
+}
+
+.payment-modal button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.payment-modal button:hover {
+  background-color: #0056b3;
+}
+
+/* Payment Admin */
+.payment-table-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.payment-table-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.payment-table thead {
+  background-color: var(--clr-primary-grey);
+  color: white;
+}
+
+.payment-table th, .payment-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.payment-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  .payment-table-container {
+    padding: 10px;
+  }
+
+  .payment-table th, .payment-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .payment-table tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+}
+
+
+
+
 
 
 

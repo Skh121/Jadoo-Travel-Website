@@ -2,27 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FormModal from '../../config/formModal';
 
-const Destination = () => {
-  const [destinationsData, setDestinationsData] = useState({
-    destinationName: '',
+const Hotel = () => {
+  const [hotelsData, setHotelsData] = useState({
+    hotelName: '',
     details: '',
     price: '',
-    type:''
   });
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState('');
-  const [destinations, setDestinations] = useState([]);
+  const [hotels, setHotels] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editDestinationId, setEditDestinationId] = useState(null);
+  const [editHotelId, setEditHotelId] = useState(null);
 
   useEffect(() => {
-    fetchDestinations();
+    fetchHotels();
   }, []);
 
-  const fetchDestinations = async () => {
+  const fetchHotels = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/destination/get');
-      setDestinations(response.data.data);
+      const response = await axios.get('http://localhost:8080/hotel/get');
+      setHotels(response.data.data);
     } catch (error) {
       console.error('Failed to fetch destinations:', error);
     }
@@ -30,7 +29,7 @@ const Destination = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setDestinationsData({ ...destinationsData, [name]: value });
+    setHotelsData({ ...hotelsData, [name]: value });
   };
 
   const handleImageChange = (e) => {
@@ -41,61 +40,61 @@ const Destination = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('destinations', new Blob([JSON.stringify(destinationsData)], { type: 'application/json' }));
+    formData.append('hotels', new Blob([JSON.stringify(hotelsData)], { type: 'application/json' }));
     formData.append('image', image);
 
     try {
-      if (editDestinationId) {
-        await axios.put(`http://localhost:8080/destination/update/${editDestinationId}`, formData, {
+      if (editHotelId) {
+        await axios.put(`http://localhost:8080/hotel/update/${editHotelId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
       } else {
-        await axios.post('http://localhost:8080/destination/save', formData, {
+        await axios.post('http://localhost:8080/hotel/save', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
       }
       window.location.reload();
-      fetchDestinations();
+      fetchHotels();
       setIsModalOpen(false);
-      setEditDestinationId(null);
+      setEditHotelId(null);
     } catch (error) {
-      setMessage('Failed to create/update destination. Please try again.');
-      console.error('Error creating/updating destination:', error);
+      setMessage('Failed to create/update hotel. Please try again.');
+      console.error('Error creating/updating hotel:', error);
     }
   };
 
 
-  const openEditModal = (destination) => {
-    setDestinationsData(destination);
+  const openEditModal = (hotel) => {
+    setHotelsData(hotel);
     setIsModalOpen(true);
-    setEditDestinationId(destination.destinationId);
+    setEditHotelId(hotel.hotelId);
   };
 
-  const deleteDestination = async (destinationId) => {
+  const deleteHotel = async (hotelId) => {
     try {
-      await axios.delete(`http://localhost:8080/destination/delete/${destinationId}`);
-      fetchDestinations();
+      await axios.delete(`http://localhost:8080/hotel/delete/${hotelId}`);
+      fetchHotels();
     } catch (error) {
-      console.error('Error deleting destination:', error);
+      console.error('Error deleting Hotel:', error);
     }
   };
 
   return (
     <div>
-      <button className="add-destination-button" onClick={() => setIsModalOpen(true)}>Add Destinations</button>
-      <FormModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditDestinationId(null); }}>
+      <button className="add-destination-button" onClick={() => setIsModalOpen(true)}>Add Hotels</button>
+      <FormModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditHotelId(null); }}>
         <form className="upload-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="destinationName">Destination Name:</label>
+            <label htmlFor="hotelName">Hotel Name:</label>
             <input
               type="text"
-              id="destinationName"
-              name="destinationName"
-              value={destinationsData.destinationName}
+              id="hotelName"
+              name="hotelName"
+              value={hotelsData.hotelName}
               onChange={handleInputChange}
               required
             />
@@ -106,7 +105,7 @@ const Destination = () => {
             <textarea
               id="details"
               name="details"
-              value={destinationsData.details}
+              value={hotelsData.details}
               onChange={handleInputChange}
               required
             />
@@ -118,7 +117,7 @@ const Destination = () => {
               type="number"
               id="price"
               name="price"
-              value={destinationsData.price}
+              value={hotelsData.price}
               onChange={handleInputChange}
               required
             />
@@ -135,7 +134,7 @@ const Destination = () => {
             />
           </div>
           <div className='submit-button-center'>
-            <button type="submit" className="submit-button">{editDestinationId ? 'Update' : 'Submit'}</button>
+            <button type="submit" className="submit-button">{editHotelId ? 'Update' : 'Submit'}</button>
           </div>
         </form>
       </FormModal>
@@ -143,21 +142,20 @@ const Destination = () => {
       {message && <p>{message}</p>}
 
       <div className="destinations-container">
-        <h2 className="destinations-title">All Destinations</h2>
+        <h2 className="destinations-title">All Hotels</h2>
         <div className="destinations-grid">
-          {destinations.map((destination) => (
-            <div key={destination.destinationId} className="destination-card">
-              <h3 className="destination-title">{destination.destinationName}</h3>
-              {/* <p className="destination-details">{destination.details}</p> */}
-              <p className="destination-price">Price: ${destination.price}</p>
-              {destination.imageData && (
+          {hotels.map((hotel) => (
+            <div key={hotel.hotelId} className="destination-card">
+              <h3 className="destination-title">{hotel.hotelName}</h3>
+              <p className="destination-price">Price: ${hotel.price}</p>
+              {hotel.imageData && (
                 <div className='destination-image-card'>
                   <img
-                    src={`http://localhost:8080/destination/image/${destination.destinationId}`}
-                    alt={destination.destinationName}
+                    src={`http://localhost:8080/hotel/image/${hotel.hotelId}`}
+                    alt={hotel.hotelName}
                     className="destination-image"
                     onError={(e) => {
-                      console.error(`Error loading image for destination ${destination.destinationId}`);
+                      console.error(`Error loading image for destination ${hotel.hotelId}`);
                       e.target.onerror = null;
                       e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
                     }}
@@ -165,8 +163,8 @@ const Destination = () => {
                 </div>
               )}
               <div className="button-container">
-                <button className="edit-button" onClick={() => openEditModal(destination)}>Edit</button>
-                <button className="delete-button" onClick={() => deleteDestination(destination.destinationId)}>Delete</button>
+                <button className="edit-button" onClick={() => openEditModal(hotel)}>Edit</button>
+                <button className="delete-button" onClick={() => deleteHotel(hotel.hotelId)}>Delete</button>
               </div>
             </div>
           ))}
@@ -176,4 +174,4 @@ const Destination = () => {
   );
 };
 
-export default Destination;
+export default Hotel;

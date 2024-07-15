@@ -11,7 +11,6 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
@@ -145,7 +144,7 @@ const Login = () => {
               <div className="switch-group center-content">
                 <span className="divider"></span>
                 <div className="switch-group-signup">
-                  <span className="or-text">Already have an account?</span>
+                  <span className="or-text signup-page ">Already have an account?</span>
                   <p className="switch-button" onClick={() => setIsSignUp(false)}>
                     Login
                   </p>

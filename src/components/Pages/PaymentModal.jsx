@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { BookingContext } from '../../components/config/BookingContext';
 
-// Setting the app element for screen readers
 Modal.setAppElement('#root');
 
-const PaymentModal = ({ isOpen, onRequestClose, destinationId, numberOfPeople, subtotal }) => {
+const PaymentModal = ({ isOpen, onRequestClose }) => {
+  const { bookingItems,clearBooking  } = useContext(BookingContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cvvNumber, setCvvNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
 
+  const calculateTotal = () => {
+    return bookingItems.reduce((total, item) => total + (item.price * item.numberOfPeople), 0).toFixed(2);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -22,24 +27,22 @@ const PaymentModal = ({ isOpen, onRequestClose, destinationId, numberOfPeople, s
         cardNumber,
         cvvNumber,
         expiryDate,
-        totalPeople: numberOfPeople,
-        totalPrice: subtotal,
+        totalAmount: calculateTotal(),
         paymentDateTime: new Date().toISOString(),
-        customer: {
-          id: localStorage.getItem("userId")
-        },
-        destinations: {
-          destinationId
-        }
+        customerId: {id:localStorage.getItem("userId")},
+        bookingItems: bookingItems.map(item => ({
+          id: item.id,
+          type: item.type, // Ensure type is included here
+          numberOfPeople: item.numberOfPeople
+        }))
       };
-
-      const response = await axios.post('http://localhost:8080/api/payment/process', paymentData);
+      const response = await axios.post('http://localhost:8080/api/payment2/process', paymentData);
       console.log('Payment processed successfully:', response.data);
-      onRequestClose(); // Close modal after successful payment
-
+      
+      clearBooking();
+      onRequestClose(); 
     } catch (error) {
       console.error('Error processing payment:', error);
-      console.log('Error data:', error.response ? error.response.data : error.message);
     }
   };
 
@@ -53,7 +56,7 @@ const PaymentModal = ({ isOpen, onRequestClose, destinationId, numberOfPeople, s
       <h2>Enter Payment Details</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Username
+          Name
           <input
             type="text"
             placeholder="Enter your username"
@@ -102,6 +105,7 @@ const PaymentModal = ({ isOpen, onRequestClose, destinationId, numberOfPeople, s
             required
           />
         </label>
+        <div>Total Amount: ${calculateTotal()}</div>
         <button type="submit">Pay Now</button>
       </form>
     </Modal>

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BookingContext } from '../../components/config/BookingContext';
 
 const DestinationsBack = () => {
+  const { addToBooking, bookingItems } = useContext(BookingContext);
   const [destinations, setDestinations] = useState([]);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -23,6 +25,30 @@ const DestinationsBack = () => {
 
   const handleShowDetails = (destinationId) => {
     navigate(`/destination/${destinationId}`);
+  };
+
+  const handleBookNow = async (destination) => {
+    try {
+      const alreadyAdded = bookingItems.some(item => item.id === destination.destinationId);
+
+      if (alreadyAdded) {
+        alert(`${destination.destinationName} is already added to Bookings!`);
+        navigate("/bookings");
+      } else {
+        const bookingData = {
+          id: destination.destinationId,
+          name: destination.destinationName,
+          price: destination.price,
+          image: `http://localhost:8080/destination/image/${destination.destinationId}`,
+          type: destination.type // Ensure type is included here
+        };
+        await addToBooking(bookingData);
+        alert(`${destination.destinationName} has been added to Bookings!`);
+        navigate("/bookings");
+      }
+    } catch (error) {
+      console.error("Failed to add booking:", error);
+    }
   };
 
   return (
@@ -55,7 +81,12 @@ const DestinationsBack = () => {
                   >
                     Show Details
                   </button>
-                  <button className="destination-button book">Book</button>
+                  <button
+                    className="destination-button book"
+                    onClick={() => handleBookNow(destination)}
+                  >
+                    Book
+                  </button>
                 </div>
               </div>
             </div>

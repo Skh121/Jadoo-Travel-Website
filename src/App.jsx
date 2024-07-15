@@ -1,5 +1,4 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { BookingProvider } from "../src/components/config/BookingContext"
@@ -18,6 +17,7 @@ const Bookings = lazy(() => import("./components/Home/Bookings"));
 const About = lazy(() => import("./components/Home/About"));
 const Hotels = lazy(() => import("./components/Home/Hotels"));
 const DestinationDetails = lazy(() => import("./components/Pages/DestinationDetails"));
+const HotelDetails = lazy(() => import("./components/Pages/HotelDetails"));
 
 // Initialize Query Client
 const queryClient = new QueryClient();
@@ -129,6 +129,15 @@ const publicRoutes = [
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <DestinationDetails/>
+      </Suspense>
+    ),
+    errorElement: <>Error loading login component</>,
+  },
+  {
+    path: "/hotel/:hotelId",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <HotelDetails/>
       </Suspense>
     ),
     errorElement: <>Error loading login component</>,

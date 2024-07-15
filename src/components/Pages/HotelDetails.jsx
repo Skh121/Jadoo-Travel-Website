@@ -1,29 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Footer from "../Home/Footer";
 import Nav from "./Nav";
 import { BookingContext } from "../../components/config/BookingContext";
 
-const DestinationDetails = () => {
-  const { destinationId } = useParams();
+const HotelDetails = () => {
+  const { hotelId } = useParams();
   const { bookingItems, addToBooking } = useContext(BookingContext);
-  const [destination, setDestination] = useState(null);
+  const [hotel, setHotel] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchDestinationDetails();
+    fetchHotelDetails();
   }, []);
 
-  useEffect(() => {
-    console.log("Current booking items:", bookingItems);
-  }, [bookingItems]);
-
-  const fetchDestinationDetails = async () => {
+  const fetchHotelDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/destination/get/${destinationId}`
+        `http://localhost:8080/hotel/get/${hotelId}`
       );
-      setDestination(response.data);
+      setHotel(response.data);
     } catch (error) {
       console.error("Failed to fetch destination details:", error);
     }
@@ -31,24 +28,25 @@ const DestinationDetails = () => {
 
   const handleBookNow = async () => {
     try {
-      if (destination) {
+      if (hotel) {
+        // Check if the destination ID already exists in bookingItems
         const alreadyAdded = bookingItems.some(
-          (item) => item.id === destination.destinationId
+          (item) => item.id === hotel.hotelId
         );
 
         if (alreadyAdded) {
-          alert(`${destination.destinationName} is already added to Bookings!`);
+          alert(`${hotel.hotelName} is already added to Bookings!`);
           navigate("/bookings");
         } else {
           const bookingData = {
-            id: destination.destinationId,
-            name: destination.destinationName,
-            price: destination.price,
-            image: `http://localhost:8080/destination/image/${destination.destinationId}`,
-            type: destination.type,
+            id: hotel.hotelId,
+            name: hotel.hotelName,
+            price: hotel.price,
+            image: `http://localhost:8080/hotel/image/${hotel.hotelId}`,
+            type: hotel.type, // Ensure type is included here
           };
           await addToBooking(bookingData);
-          alert(`${destination.destinationName} has been added to Bookings!`);
+          alert(`${hotel.hotelName} has been added to Bookings!`);
           navigate("/bookings");
         }
       }
@@ -57,7 +55,7 @@ const DestinationDetails = () => {
     }
   };
 
-  if (!destination) {
+  if (!hotel) {
     return <p>Loading...</p>;
   }
 
@@ -68,19 +66,19 @@ const DestinationDetails = () => {
       </div>
       <div className="details-container">
         <div className="details-header">
-          <h2 className="details-name">{destination.destinationName}</h2>
-          <p className="details-price">Price: ${destination.price}</p>
+          <h2 className="details-name">{hotel.hotelName}</h2>
+          <p className="details-price">Price: ${hotel.price}</p>
         </div>
         <div className="details-image-container">
           <div className="details-image-wrapper">
             <img
-              src={`http://localhost:8080/destination/image/${destination.destinationId}`}
-              alt={destination.destinationName}
+              src={`http://localhost:8080/hotel/image/${hotel.hotelId}`}
+              alt={hotel.hotelName}
               className="details-image"
             />
           </div>
           <div className="details-content">
-            <p>{destination.details}</p>
+            <p>{hotel.details}</p>
           </div>
         </div>
         <div className="details-button-container">
@@ -92,8 +90,9 @@ const DestinationDetails = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
 
-export default DestinationDetails;
+export default HotelDetails;

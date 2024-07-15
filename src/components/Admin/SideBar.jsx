@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "../../index.css"
+
 import Logo from "../../assets/images/Logo.png"
 import {
   ArrowLeftRightIcon,
@@ -28,18 +30,13 @@ const navLinks = [
     icon: LayoutDashboard,
   },
   {
-    link: "/admin/customer",
-    label: "Customer",
-    icon: User,
-  },
-  {
     link: "/admin/destination",
     label: "Destination",
     icon: House,
   },
   {
-    link: "/admin/order",
-    label: "Order",
+    link: "/admin/hotel",
+    label: "Hotel",
     icon: PackageOpen,
   },
   {
@@ -72,6 +69,7 @@ function SideBar() {
     localStorage.removeItem("roles");
     setIsLoggedIn(false);
     navigate("/");
+    window.location.reload();
     console.log("User logged out");
   };
 
@@ -91,32 +89,42 @@ function SideBar() {
     <motion.div
       animate={isExpanded ? "expanded" : "nonexpanded"}
       variants={variants}
-      className={`sidebar-container ${isExpanded ? "expanded" : "nonexpanded"}`}
+      className={
+        "py-10 h-screen flex flex-col border border-r-2 bg-[#FDFDFD] relative" +
+        (isExpanded ? " px-10" : " px-2 duration-500")
+      }
     >
       <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className="toggle-button"
+        className="cursor-pointer absolute -right-3 top-10 rounded-full w-6 h-6 bg-[#FF8C8C] md:flex hidden justify-center items-center"
       >
-        <FaArrowRight className="toggle-icon" />
+        <FaArrowRight className="text-white" />
       </div>
-
-      <div className="logo-div">
-        <FaHouseChimney className="logo-icon" />
-        <span className={`logo-text ${!isExpanded ? "hidden" : ""}`}>
-          <img src={Logo} alt="Logo" />
+ 
+      <div className="logo-div flex space-x-4 items-center">
+        <FaHouseChimney className="text-red-900 sm:text-2xl md:w-6 w-4 ml-2" />
+        <span className={!isExpanded ? "hidden" : "block"}>
+          <span className="text-black text-md">Home</span>
+          <span className="text-blue-600 text-md">Scape</span>
         </span>
       </div>
-
-      <div className="nav-links">
+ 
+      <div className="flex flex-col space-y-8 mt-12 flex-grow">
         {navLinks.map((item, index) => (
-          <div className="nav-link" key={index}>
-            <Link to={item.link} className="link">
+          <div className="nav-links w-full" key={index}>
+            <Link to={item.link} className="flex items-center gap-3">
               <div
                 onClick={() => setActiveIndex(index)}
-                className={`link-content ${activeIndex === index ? "active" : "inactive"} ${!isExpanded ? "pl-3" : ""}`}
+                className={
+                  "flex space-x-3 w-full p-2 rounded " +
+                  (activeIndex === index
+                    ? "bg-[#FF8C8C] text-white"
+                    : "text-black") +
+                  (!isExpanded ? " pl-3" : "")
+                }
               >
-                <item.icon className="icon" />
-                <span className={`label ${!isExpanded ? "hidden" : ""}`}>
+                <item.icon className="md:w-6 w-4" />
+                <span className={!isExpanded ? "hidden" : "block"}>
                   {item.label}
                 </span>
               </div>
@@ -125,10 +133,16 @@ function SideBar() {
         ))}
         <div
           onClick={handleLogout}
-          className={`logout-section ${!isExpanded ? "collapsed" : ""}`}
+          className={
+            "flex space-x-3 w-full p-2 rounded cursor-pointer text-black" +
+            (!isExpanded ? " pl-3" : "")
+          }
         >
-          <BiLogOut className="logout-icon" />
-          <button className={`logout-button ${!isExpanded ? "hidden" : ""}`} onClick={handleLogout}>
+          <BiLogOut className="md:w-6 w-4" />
+          <button
+            className={!isExpanded ? "hidden" : "block"}
+            onClick={handleLogout}
+          >
             Logout
           </button>
         </div>
@@ -136,5 +150,4 @@ function SideBar() {
     </motion.div>
   );
 }
-
 export default SideBar;

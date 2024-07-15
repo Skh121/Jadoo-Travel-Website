@@ -6,32 +6,23 @@ import PaymentModal from './PaymentModal';
 const BookingPage = () => {
   const { bookingItems, removeFromBooking, clearBooking, updateNumberOfPeople } = useContext(BookingContext);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [selectedDestinationId, setSelectedDestinationId] = useState(null);
-  const [numberOfPeople, setNumberOfPeople] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
 
   const handleNumberOfPeopleChange = (id, amount) => {
     updateNumberOfPeople(id, amount);
   };
 
-  const openPaymentModal = (destinationId) => {
+  const openPaymentModal = () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
       alert("You must be logged in to proceed with payment.");
       return;
     }
 
-    const item = bookingItems.find(item => item.id === destinationId);
-    setNumberOfPeople(item.numberOfPeople);
-    setSubtotal(item.price * item.numberOfPeople);
-
-    setSelectedDestinationId(destinationId);
     setIsPaymentModalOpen(true);
   };
 
   const closePaymentModal = () => {
     setIsPaymentModalOpen(false);
-    setSelectedDestinationId(null);
   };
 
   return ( 
@@ -54,7 +45,7 @@ const BookingPage = () => {
                 <img src={item.image} alt={item.name} className="booking-item-image" />
                 <div className="booking-item-name">{item.name}</div>
               </td>
-              <td className="booking-item-price">${item.price.toFixed(2)}</td>
+              <td className="booking-item-price">${item.price}</td>
               <td className="booking-item-number-of-people">
                 <button onClick={() => handleNumberOfPeopleChange(item.id, -1)} className="quantity-button">-</button>
                 {item.numberOfPeople}
@@ -65,6 +56,7 @@ const BookingPage = () => {
                 <MdDelete onClick={() => removeFromBooking(item.id)} className="delete-icon" />
               </td>
             </tr>
+            
           ))}
         </tbody>
       </table>
@@ -72,7 +64,7 @@ const BookingPage = () => {
         <button className="clear-cart-button" onClick={clearBooking}>Clear Cart</button>
         <button 
           className="payment-button" 
-          onClick={() => openPaymentModal(bookingItems.length > 0 ? bookingItems[0].id : null)}
+          onClick={openPaymentModal}
           disabled={bookingItems.length === 0}
         >
           Proceed to Payment
@@ -83,9 +75,7 @@ const BookingPage = () => {
       <PaymentModal 
         isOpen={isPaymentModalOpen} 
         onRequestClose={closePaymentModal} 
-        destinationId={selectedDestinationId}
-        numberOfPeople={numberOfPeople}
-        subtotal={subtotal}
+        bookingItems={bookingItems}
       />
     </div>
   );

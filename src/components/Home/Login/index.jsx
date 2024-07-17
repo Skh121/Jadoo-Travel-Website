@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer,Slide  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import loginImage from "../../../assets/images/tourLogin.png";
 import Logo from "../../../assets/images/Logo.png";
 
@@ -19,29 +21,40 @@ const Login = () => {
         password,
       });
   
-      console.log("Login response:", response.data); // Check response data
-  
       const { accessToken, userId, roles } = response.data;
       localStorage.setItem("token", accessToken);
       localStorage.setItem("userId", userId);
       localStorage.setItem("roles", JSON.stringify(roles));
   
-      console.log("Token set in localStorage:", localStorage.getItem("token")); // Debug localStorage
+      console.log("Token set in localStorage:", localStorage.getItem("token"));
       console.log("UserId set in localStorage:", localStorage.getItem("userId"));
   
       const role = roles.includes("ADMIN") ? "/admin/dashboard" : "/home";
-      navigate(role);
-      window.location.reload();
+      toast.success('Logged In Successfully!', {
+        position: 'top-right',
+        autoClose: 3000,
+        onClose: () => {
+          navigate(role);
+          window.location.reload();
+        }
+      });
+      
     } catch (error) {
       console.error("Login error:", error);
-      alert("Invalid credentials. Please try again.");
+      toast.error(`Invalid credentials. Please try again.`, {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     }
   };
   
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match. Please try again.");
+      toast.error(`Passwords do not match. Please try again.`, {
+        position: 'top-right',
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -53,20 +66,29 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        alert("Registration successful!");
+         toast.success(`Registration Successfull.`, {
+          position: 'top-right',
+          autoClose: 3000,
+        });
         setIsSignUp(false);
       } else {
-        alert("Registration failed. Please try again.");
+        toast.error(`Registration Failed, Please try again`, {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Registration error:", error);
-      alert("Registration failed. Please try again.");
-    }
+      toast.error(`Registration Failed, Please try again`, {
+        position: 'top-right',
+        autoClose: 3000,
+      });    }
   };
   
 
   return (
     <>
+      <ToastContainer transition={Slide} />
       <div className="container container-login">
         <div className="form-wrapper form-login">
           <div

@@ -1,7 +1,10 @@
 import React, { useContext, useState } from 'react';
+import { toast, ToastContainer,Slide  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BookingContext } from '../../components/config/BookingContext';
 import { MdDelete } from 'react-icons/md';
 import PaymentModal from './PaymentModal';
+
 
 const BookingPage = () => {
   const { bookingItems, removeFromBooking, clearBooking, updateNumberOfPeople } = useContext(BookingContext);
@@ -14,7 +17,10 @@ const BookingPage = () => {
   const openPaymentModal = () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("You must be logged in to proceed with payment.");
+      toast.error(`You must be Logged in to Book`, {
+        position: 'top-right',
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -26,6 +32,8 @@ const BookingPage = () => {
   };
 
   return ( 
+    <>
+    <ToastContainer transition={Slide} />
     <div className="booking-page-container">
       <h2>Booking Page</h2>
       <table className="booking-table">
@@ -78,6 +86,7 @@ const BookingPage = () => {
         bookingItems={bookingItems}
       />
     </div>
+    </>
   );
 };
 

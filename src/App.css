@@ -2074,10 +2074,18 @@ textarea {
   border-collapse: collapse;
   margin-bottom: 20px;
 }
+.payment-table th,
+.payment-table td {
+  border: 1px solid #e5e7eb;
 
+}
+.payment-table tbody{
+  margin-right: -20px;
+}
 .payment-table thead {
   background-color: var(--clr-primary-grey);
   color: white;
+  font-weight: bold;
 }
 
 .payment-table th, .payment-table td {

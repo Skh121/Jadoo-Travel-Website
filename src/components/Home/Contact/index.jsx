@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { toast, ToastContainer,Slide  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../Footer";
 import Nav from "../../Pages/Nav";
 
@@ -7,7 +9,6 @@ const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [responseMessage, setResponseMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +16,10 @@ const Contact = () => {
     const userId = localStorage.getItem('userId');
 
     if (!token) {
-      alert('Please log in to send a message');
+      toast.error(`Please Login to send a message`, {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       return;
     }
 
@@ -35,14 +39,19 @@ const Contact = () => {
         }
       );
       if (response.status === 200) {
-        setResponseMessage('Message sent successfully');
+        toast.success(`Message sent successfully`, {
+          position: 'top-right',
+          autoClose: 3000,
+        });
         setName('');
         setEmail('');
         setMessage('');
       }
     } catch (error) {
-      console.error('Error sending message:', error);
-      setResponseMessage('Failed to send message. Please try again.');
+      toast.error(`Error Sending Message`, {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     }
   };
 
@@ -59,6 +68,7 @@ const Contact = () => {
 
   return (
     <>
+      <ToastContainer transition={Slide} />
       <div className="destinations-nav">
         <Nav />
       </div>
@@ -120,7 +130,6 @@ const Contact = () => {
             <button type="submit" className="submit-button">
               Send Message
             </button>
-            {responseMessage && <p className="response-message">{responseMessage}</p>}
           </form>
         </div>
       </div>

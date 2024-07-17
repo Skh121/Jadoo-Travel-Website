@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../../index.css"
-
 import Logo from "../../assets/images/Logo.png"
+
 import {
   ArrowLeftRightIcon,
   PackageOpen,
@@ -104,8 +104,7 @@ function SideBar() {
       <div className="logo-div flex space-x-4 items-center">
         <FaHouseChimney className="text-red-900 sm:text-2xl md:w-6 w-4 ml-2" />
         <span className={!isExpanded ? "hidden" : "block"}>
-          <span className="text-black text-md">Home</span>
-          <span className="text-blue-600 text-md">Scape</span>
+          <img src={Logo} alt="Logo Image"/>
         </span>
       </div>
  

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer,Slide  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BookingContext } from '../../components/config/BookingContext';
 
 const HotelsBack = () => {
@@ -32,8 +34,11 @@ const HotelsBack = () => {
       const alreadyAdded = bookingItems.some(item => item.id === hotel.hotelId);
 
       if (alreadyAdded) {
-        alert(`${hotel.hotelName} is already added to Bookings!`);
-        navigate("/bookings");
+        toast.error(`${hotel.hotelName} is already added to Bookings!`, {
+          position: 'top-right',
+          autoClose: 3000,
+          onClose: () => navigate("/bookings")
+        });
       } else {
         const bookingData = {
           id: hotel.hotelId,
@@ -43,8 +48,11 @@ const HotelsBack = () => {
           type: hotel.type // Ensure type is included here
         };
         await addToBooking(bookingData);
-        alert(`${hotel.hotelName} has been added to Bookings!`);
-        navigate("/bookings");
+        toast.success(`${hotel.hotelName} has been added to Bookings!`, {
+          position: 'top-right',
+          autoClose: 3000,
+          onClose: () => navigate("/bookings")
+        });
       }
     } catch (error) {
       console.error("Failed to add booking:", error);
@@ -54,6 +62,7 @@ const HotelsBack = () => {
   return (
     <div>
       {message && <p>{message}</p>}
+      <ToastContainer transition={Slide} />
       <div className="destinations-container">
         <h2 className="destinations-title">All Hotels</h2>
         <div className="destinations-grid">

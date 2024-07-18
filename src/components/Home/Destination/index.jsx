@@ -1,58 +1,60 @@
-import destination1 from "../../../assets/images/destination1.png";
-import destination2 from "../../../assets/images/destination2.png";
-import destination3 from "../../../assets/images/destination3.png";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import fly from "../../../assets/images/fly.png";
 
-
 const Destination = () => {
+  const [topDestinations, setTopDestinations] = useState([]);
+
+  useEffect(() => {
+    const fetchTopDestinations = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/destination/get');
+        const destinations = response.data.data;
+
+        // Shuffle the destinations array
+        const shuffledDestinations = destinations.sort(() => 0.5 - Math.random());
+        
+        // Get the top 3 random destinations
+        setTopDestinations(shuffledDestinations.slice(0, 3));
+      } catch (error) {
+        console.error('Failed to fetch destinations:', error);
+      }
+    };
+
+    fetchTopDestinations();
+  }, []);
+
   return (
     <section id="destinations">
-      
-        <p className="title">Top Selling</p>
-        <h2 className="heading">Top Destinations</h2>
+      <p className="title">Top Selling</p>
+      <h2 className="heading">Top Destinations</h2>
 
-        <div className="locations">
-          <article className="locations__article">
+      <div className="locations">
+        {topDestinations.map((destination) => (
+          <article key={destination.destinationId} className="locations__article">
             <div className="locations__image">
-              <img src={destination1} alt="Destination1" />
+              <img 
+                src={`http://localhost:8080/destination/image/${destination.destinationId}`} 
+                alt={destination.destinationName} 
+                onError={(e) => {
+                  console.error(`Error loading image for destination ${destination.destinationId}`);
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+                }}
+              />
             </div>
             <p className="location__package">
-              Rome, Italy<span>$5,42k</span>
+              {destination.destinationName}<span>${destination.price}k</span>
             </p>
             <div className="location__span">
               <img src={fly} alt="Fly" />
-              <span>10 Days Trip</span>
+              <span>{destination.duration} Day Trip</span>
             </div>
           </article>
+        ))}
+      </div>
+    </section>
+  );
+};
 
-          <article className="locations__article">
-            <div className="locations__image">
-              <img src={destination2} alt="Destination2" />
-            </div>
-            <p className="location__package">
-              London, UK<span>$4,2k</span>
-            </p>
-            <div className="location__span">
-              <img src={fly} alt="Fly" />
-              <span>12 Days Trip</span>
-            </div>
-          </article>
-
-          <article className="locations__article">
-            <div className="locations__image">
-              <img src={destination3} alt="Destination3" />
-            </div>
-            <p className="location__package">
-              Full Europe <span>$15k</span>
-            </p>
-            <div className="location__span">
-              <img src={fly} alt="Fly" />
-              <span>28 Days Trip</span>
-            </div>
-          </article>
-        </div>
-      </section>
-  )
-}
-
-export default Destination
+export default Destination;

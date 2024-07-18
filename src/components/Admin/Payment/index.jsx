@@ -129,7 +129,7 @@ const Payment = () => {
 
   return (
     <div className="payment-details-container">
-      <div className="combined-payments">
+      <div className="combined-payments pay">
         <h2>Payment Details for Combined Destinations and Hotels</h2>
         <table className="payment-table">
           <thead>
@@ -172,7 +172,7 @@ const Payment = () => {
         </table>
       </div>
 
-      <div className="destination-payments">
+      <div className="destination-payments pay">
         <h2>Payment Details for Destinations</h2>
         <table className="payment-table">
           <thead>
@@ -205,7 +205,7 @@ const Payment = () => {
         </table>
       </div>
 
-      <div className="hotel-payments">
+      <div className="hotel-payments pay">
         <h2>Payment Details for Hotels</h2>
         <table className="payment-table">
           <thead>

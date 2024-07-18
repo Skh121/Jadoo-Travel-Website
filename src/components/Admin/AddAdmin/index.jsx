@@ -34,6 +34,7 @@ const AddAdmin = () => {
   };
 
   return (
+    <div className='add-admin-wrapper'>
     <div className="add-admin-container">
       <h2>Add Admin</h2>
       <form onSubmit={SignUp} className="add-admin-form">
@@ -78,6 +79,7 @@ const AddAdmin = () => {
 
         <button type="submit" className="submit-button">Submit</button>
       </form>
+    </div>
     </div>
   );
 };

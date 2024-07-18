@@ -270,9 +270,13 @@ header {
 }
 .locations__image {
   max-width: 20.0625rem;
+  border-radius: 25px;
+  height: 86%;
 }
 .locations__image > img {
   width: 100%;
+  height: 100%;
+  border-radius: 25px;
 }
 .location__package,
 .location__span {
@@ -309,18 +313,22 @@ header {
   display: flex;
   flex-direction: column;
   gap: 1.875rem;
+  width:100%;
+  height:20%
 }
 .booking__image {
-  max-width: 20.0625rem;
+  max-width: 657px;
+  max-height: 560px;
 }
 .card__info {
   box-shadow: 0 1.25rem 2.1875rem rgb(40 39 37 / 15%);
   border-bottom-left-radius: 1.25rem;
   border-bottom-right-radius: 1.25rem;
-  padding-bottom: 1.25rem;
+  /* padding-bottom: 1.25rem; */
 }
 .card__info {
   gap: 0.625rem;
+  margin-top: 0.4rem;
 }
 .feature {
   gap: 0.625rem;
@@ -343,10 +351,13 @@ header {
   font-weight: var(--font-sm);
 }
 .card__image {
-  max-width: 20.0625rem;
+  width:100%;
+  height:80%
 }
 .card__image > img {
   width: 100%;
+  height:100%;
+  border-radius: 24px;
 }
 .card__desc {
   font-weight: var(--font-md);
@@ -368,6 +379,10 @@ header {
 .card__desc,
 .card__title {
   padding: 0 0.625rem;
+}
+.card__title{
+  font-size: large;
+  font-weight: 500;
 }
 .visitors__count > img {
   width: 1.5625rem;
@@ -712,6 +727,29 @@ blockquote {
     grid-template-columns: repeat(2, minmax(18.75rem, 1fr));
   }
 }
+@media screen and (min-width: 360px){
+  .booking__image{
+    max-width: 305px;
+    max-height: 530px;
+    margin: 0 auto;
+  }
+}
+@media screen and (min-width: 640px){
+  .booking__image{
+    max-width: 400px;
+    max-height: 560px;
+    margin: 0 auto;
+  }
+  .booking__image .card-image{
+    width:100%;
+    height: 80%;
+  }
+  .card-image img{
+    width: 100%;
+    height:100%
+  }
+}
+
 
 @media screen and (min-width: 43.75rem) {
   .hero__heading {
@@ -1251,8 +1289,13 @@ a {
 }
 
 /* addadmin */
+.add-admin-wrapper{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 .add-admin-container {
-  max-width: 400px;
+  width:400px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -1264,7 +1307,8 @@ a {
 .add-admin-container h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  font-weight: 500;
+  color: var(--clr-primary-blue);
 }
 
 .add-admin-form {
@@ -1815,45 +1859,6 @@ textarea {
   }
 }
 
-/* Booking Items */
-/* .booking-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.booking-item-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  margin-right: 20px;
-}
-
-.booking-item-details {
-  flex: 1;
-}
-
-.booking-item-name {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.booking-item-add {
-  background-color: #f1a501;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #e39200;
-  }
-} */
-
 /* Booking page */
 .booking-page-container {
   padding: 20px;
@@ -1918,8 +1923,9 @@ textarea {
 
 .booking-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 20px;
+  gap:2rem
 }
 
 .booking-buttons .clear-cart-button {
@@ -1931,8 +1937,33 @@ textarea {
   background-color: #f44336;
   color: white;
 }
+.booking-buttons .payment-button{
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: white;
+}
+.button-group{
+  display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+.payment-modal .button-group button[type="submit"] {
+  color: white;
+  background-color: #007bff;
+  order:2
+}
 
-.booking-buttons .clear-cart-button:hover {
+.payment-modal .button-group button[type="button"] {
+  background-color: #f44336;
+  color: white;
+  order:1
+}
+
+.booking-buttons .payment-button:hover {
   opacity: 0.8;
 }
 
@@ -2055,6 +2086,12 @@ textarea {
 }
 
 /* Payment Admin */
+.pay h2{
+  font-size: larger;
+  margin:1rem 0;
+  font-weight: 500;
+  color:var(--clr-primary-blue) ;
+}
 .payment-table-container {
   width: 100%;
   margin: 0 auto;

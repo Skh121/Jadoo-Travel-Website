@@ -44,7 +44,7 @@ const PaymentModal = ({ isOpen, onRequestClose }) => {
       toast.success('Payment processed successfully!', {
         position: 'top-right',
         autoClose: 3000,
-        onClose:()=> window.location.reload()
+        onClose: () => window.location.reload()
       });
       
       clearBooking();
@@ -54,9 +54,8 @@ const PaymentModal = ({ isOpen, onRequestClose }) => {
       toast.error('Failed to process payment. Please try again.', {
         position: 'top-right',
         autoClose: 3000,
-        onClose:()=> window.location.reload()
+        onClose: () => window.location.reload()
       });
-      
     }
   };
 
@@ -122,7 +121,10 @@ const PaymentModal = ({ isOpen, onRequestClose }) => {
             />
           </label>
           <div>Total Amount: ${calculateTotal()}</div>
-          <button type="submit">Pay Now</button>
+          <div className="button-group">
+            <button type="submit">Pay Now</button>
+            <button type="button" onClick={onRequestClose}>Cancel</button>
+          </div>
         </form>
       </Modal>
     </>

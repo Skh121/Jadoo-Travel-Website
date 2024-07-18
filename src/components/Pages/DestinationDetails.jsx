@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Nav from "./Nav";
+import { toast, ToastContainer,Slide  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BookingContext } from "../../components/config/BookingContext";
 
 const DestinationDetails = () => {
@@ -37,8 +39,11 @@ const DestinationDetails = () => {
         );
 
         if (alreadyAdded) {
-          alert(`${destination.destinationName} is already added to Bookings!`);
-          navigate("/bookings");
+          toast.error(`${destination.destinationName} is already added to Bookings!`, {
+            position: 'top-right',
+            autoClose: 3000,
+            onClose: () => navigate("/bookings")
+          });
         } else {
           const bookingData = {
             id: destination.destinationId,
@@ -48,8 +53,11 @@ const DestinationDetails = () => {
             type: destination.type,
           };
           await addToBooking(bookingData);
-          alert(`${destination.destinationName} has been added to Bookings!`);
-          navigate("/bookings");
+          toast.success(`${destination.destinationName} has been added to Bookings!`, {
+            position: 'top-right',
+            autoClose: 3000,
+            onClose: () => navigate("/bookings")
+          });
         }
       }
     } catch (error) {
@@ -63,6 +71,7 @@ const DestinationDetails = () => {
 
   return (
     <>
+    <ToastContainer transition={Slide} />
       <div className="destinations-nav">
         <Nav />
       </div>

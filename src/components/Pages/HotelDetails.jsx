@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../Home/Footer";
 import Nav from "./Nav";
+import { toast, ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { BookingContext } from "../../components/config/BookingContext";
 
 const HotelDetails = () => {
@@ -35,8 +37,14 @@ const HotelDetails = () => {
         );
 
         if (alreadyAdded) {
-          alert(`${hotel.hotelName} is already added to Bookings!`);
-          navigate("/bookings");
+          toast.error(
+            `${hotel.hotelName} is already added to Bookings!`,
+            {
+              position: "top-right",
+              autoClose: 3000,
+              onClose: () => navigate("/bookings"),
+            }
+          );
         } else {
           const bookingData = {
             id: hotel.hotelId,
@@ -46,8 +54,14 @@ const HotelDetails = () => {
             type: hotel.type, // Ensure type is included here
           };
           await addToBooking(bookingData);
-          alert(`${hotel.hotelName} has been added to Bookings!`);
-          navigate("/bookings");
+          toast.success(
+            `${hotel.hotelName} has been added to Bookings!`,
+            {
+              position: "top-right",
+              autoClose: 3000,
+              onClose: () => navigate("/bookings"),
+            }
+          );
         }
       }
     } catch (error) {
@@ -61,6 +75,7 @@ const HotelDetails = () => {
 
   return (
     <>
+      <ToastContainer transition={Slide} />
       <div className="destinations-nav">
         <Nav />
       </div>

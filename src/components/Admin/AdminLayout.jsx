@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import "../../index.css"
+import About from './About';
 
 // Lazy load admin components
 const SideBar = lazy(() => import('./SideBar'));
@@ -25,6 +26,7 @@ const AdminLayout = () => (
           <Route path="support" element={<Support />} />
           <Route path="payment" element={<Payment />} />
           <Route path="addAdmin" element={<AddAdmin />} />
+          <Route path="about" element={<About />} />
         </Routes>
       </Suspense>
     </div>

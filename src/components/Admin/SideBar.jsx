@@ -12,6 +12,7 @@ import {
   HelpCircleIcon,
   House,
   PlusCircle,
+  BriefcaseBusinessIcon
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
@@ -24,7 +25,7 @@ const variants = {
 };
 
 const navLinks = [
-  {
+  { 
     link: "/admin/dashboard",
     label: "Dashboard",
     icon: LayoutDashboard,
@@ -53,6 +54,11 @@ const navLinks = [
     link: "/admin/addadmin",
     label: "Add Admin",
     icon: PlusCircle,
+  },
+  {
+    link: "/admin/about",
+    label: "About",
+    icon: BriefcaseBusinessIcon,
   },
 ];
 
@@ -96,7 +102,7 @@ function SideBar() {
     >
       <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className="cursor-pointer absolute -right-3 top-10 rounded-full w-6 h-6 bg-[#FF8C8C] md:flex hidden justify-center items-center"
+        className="cursor-pointer absolute -right-3 top-10 rounded-full w-6 h-6 bg-[#36454f] md:flex hidden justify-center items-center"
       >
         <FaArrowRight className="text-white" />
       </div>
@@ -117,7 +123,7 @@ function SideBar() {
                 className={
                   "flex space-x-3 w-full p-2 rounded " +
                   (activeIndex === index
-                    ? "bg-[#FF8C8C] text-white"
+                    ? "bg-[#36454f] text-white"
                     : "text-black") +
                   (!isExpanded ? " pl-3" : "")
                 }

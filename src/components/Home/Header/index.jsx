@@ -1,12 +1,25 @@
-import decore from "../../../assets/images/decore.png"
-import play_button from "../../../assets/images/play-button.png"
-import hero_image from "../../../assets/images/hero-image.png"
-import Nav from "../../Pages/Nav"
+import React, { useState } from 'react';
+import decore from "../../../assets/images/decore.png";
+import play_button from "../../../assets/images/play-button.png";
+import hero_image from "../../../assets/images/hero-image.png";
+import Nav from "../../Pages/Nav";
+import { Link } from "react-router-dom";
+import jadooVideo from "../../../assets/video/Jadoo.mp4"
 
 const Header = () => {
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  const handlePlayButtonClick = () => {
+    setIsVideoPlaying(true);
+  };
+
+  const handleExitButtonClick = () => {
+    setIsVideoPlaying(false);
+  };
+
   return (
     <header>
-     <Nav/>
+      <Nav />
       <div className="hero">
         <div className="container hero__center">
           <div className="hero__content">
@@ -15,13 +28,15 @@ const Header = () => {
               Travel, <span>enjoy</span> and live a new and full life
             </h1>
             <p className="hero__slogan">
-              Built Wicket longer admire do barton vanity itself do in it.
-              Preferred to sportsmen it engrossed listening. Park gate sell they
-              west hard for the.
+              Discover your next adventure with us – explore breathtaking
+              destinations, indulge in unique experiences, and create
+              unforgettable memories on our guided tours.
             </p>
             <div className="hero__cta">
-              <a className="cta__info" href="#">Find out more</a>
-              <div className="cta__demo">
+              <Link to="/about" className="cta__info">
+                Find out more
+              </Link>
+              <div className="cta__demo" onClick={handlePlayButtonClick}>
                 <img
                   className="cta__image--play"
                   src={play_button}
@@ -39,8 +54,20 @@ const Header = () => {
       <div className="background--image">
         <img src={decore} alt="Decore Image" />
       </div>
+      {isVideoPlaying && (
+        <div className="video__container">
+          <button className="video__exit" onClick={handleExitButtonClick}>
+            &times;
+          </button>
+          <video width="700" height="350" controls autoPlay>
+            <source src={jadooVideo} type="video/mp4" />
+            <source src="movie.ogg" type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import choose_des from "../../../assets/images/choose-des.png";
 import make_payment from "../../../assets/images/make-payment.png";
 import reach_airport from "../../../assets/images/reach-airport.png";
 import leaf from "../../../assets/images/leaf.png";
 import map from "../../../assets/images/map.png";
 import send from "../../../assets/images/send.png";
-import building from "../../../assets/images/building.png";
-import heart from "../../../assets/images/heart.png";
 
 const Booking = () => {
   const [destination, setDestination] = useState(null);
@@ -15,12 +13,15 @@ const Booking = () => {
   useEffect(() => {
     const fetchDestination = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/destination/get');
+        const response = await axios.get(
+          "http://localhost:8080/destination/get"
+        );
         const destinations = response.data.data;
-        const randomDestination = destinations[Math.floor(Math.random() * destinations.length)];
+        const randomDestination =
+          destinations[Math.floor(Math.random() * destinations.length)];
         setDestination(randomDestination); // Set a random destination
       } catch (error) {
-        console.error('Failed to fetch destination:', error);
+        console.error("Failed to fetch destination:", error);
       }
     };
 
@@ -39,8 +40,9 @@ const Booking = () => {
               <div className="feature__header">
                 <h4 className="feature__title">Choose Destination</h4>
                 <p className="feature__desc">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Urna, tortor tempus.
+                  Choose your dream destination from our curated selection of
+                  the world's most captivating places and embark on a journey
+                  tailored to your unique preferences and desires.
                 </p>
               </div>
             </div>
@@ -49,18 +51,21 @@ const Booking = () => {
               <div className="feature__header">
                 <h4 className="feature__title">Make Payment</h4>
                 <p className="feature__desc">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Urna, tortor tempus.
+                  Secure your dream vacation with our seamless and secure
+                  payment process, ensuring a hassle-free experience from start
+                  to finish.
                 </p>
               </div>
             </div>
             <div className="feature">
               <img src={reach_airport} alt="Reach Airport" />
               <div className="feature__header">
-                <h4 className="feature__title">Reach Airport on Selected Date</h4>
+                <h4 className="feature__title">
+                  Reach Airport on Selected Date
+                </h4>
                 <p className="feature__desc">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Urna, tortor tempus.
+                  Arrive at the airport on your selected date with ease, ready
+                  to begin your unforgettable journey on time and stress-free.
                 </p>
               </div>
             </div>
@@ -69,14 +74,17 @@ const Booking = () => {
         <div className="booking__image">
           {destination ? (
             <div className="card__image">
-              <img 
-                src={`http://localhost:8080/destination/image/${destination.destinationId}`} 
+              <img
+                src={`http://localhost:8080/destination/image/${destination.destinationId}`}
                 alt={destination.destinationName}
                 onError={(e) => {
-                  console.error(`Error loading image for destination ${destination.destinationId}`);
+                  console.error(
+                    `Error loading image for destination ${destination.destinationId}`
+                  );
                   e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-                }} 
+                  e.target.src =
+                    "https://via.placeholder.com/400x300?text=Image+Not+Found";
+                }}
               />
             </div>
           ) : (
@@ -84,7 +92,9 @@ const Booking = () => {
           )}
           {destination && (
             <div className="card__info">
-              <p className="card__title">Trip To {destination.destinationName}</p>
+              <p className="card__title">
+                Trip To {destination.destinationName}
+              </p>
               <p className="card__svgs">
                 <img src={leaf} alt="Leaf" />
                 <img src={map} alt="Map" />

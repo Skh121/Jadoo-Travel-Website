@@ -64,40 +64,6 @@ const UserDropdown = () => {
             <div className="text-gray-600">{email}</div>
           </div>
           <ul className="dropdown-list">
-            {roles.includes("ADMIN") && (
-              <li>
-                <Link
-                  to="/admin/dashboard"
-                  className="dropdown-item"
-                >
-                  Admin Dashboard
-                </Link>
-              </li>
-            )}
-            <li>
-              <Link
-                to="/dashboard"
-                className="dropdown-item"
-              >
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings"
-                className="dropdown-item"
-              >
-                Settings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/earnings"
-                className="dropdown-item"
-              >
-                Earnings
-              </Link>
-            </li>
           </ul>
           <div className="dropdown-footer">
             <button

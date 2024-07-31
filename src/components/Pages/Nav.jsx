@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/Logo.png";
 import menu from "../../assets/images/menu.png";
 import { useAuth } from '../config/AuthContext';
@@ -9,11 +9,13 @@ import { contextApi } from '../../context';
 const Nav = () => {
   const { isLoggedIn } = useAuth();
   const { openSidebar } = useContext(contextApi);
+  const navigate = useNavigate();
 
   return (
     <div className="header__center container">
       <div className="header__logo">
-        <img src={Logo} alt="Logo" />
+        <img src={Logo} alt="Logo" onClick={() => navigate("/")} 
+          style={{ cursor: "pointer" }} />
       </div>
       <button
         id="nav__menu"

@@ -3,13 +3,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { BookingProvider } from "../src/components/config/BookingContext"
 import "./App.css";
+import Shimmer from "./components/helper/Shimmer";
+import HomeShimmer from "./components/helper/HomeShimmer";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./components/Home"));
 const Login = lazy(() => import("./components/Home/Login"));
-const Sales = lazy(() => import("./components/Admin/Sales"));
-const Staff = lazy(() => import("./components/Admin/Staff/StaffMain"));
-const UnAuthorized = lazy(() => import("./components/Admin/UnAuthorized"));
+const UnAuthorized = lazy(() => import("./components/helper/Unauthorized"));
 const AdminLayout = lazy(() => import("./components/Admin/AdminLayout"));
 const Destinations = lazy(() => import("./components/Home/Destinations"));
 const Contact = lazy(() => import("./components/Home/Contact"));
@@ -29,19 +29,10 @@ const privateRoutes = [
     element: <AdminLayout/>,
     children: [
       {
-        path: "sales",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Sales />
-          </Suspense>
-        ),
-        errorElement: <>Error loading sales component</>,
-      },
-      {
         path: "*",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <UnAuthorized />
+            <UnAuthorized/>
           </Suspense>
         ),
         errorElement: <>Error loading customer component</>,
@@ -55,7 +46,7 @@ const publicRoutes = [
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<HomeShimmer/>}>
         <Home />
       </Suspense>
     ),
@@ -64,7 +55,7 @@ const publicRoutes = [
   {
     path: "/home",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<HomeShimmer/>}>
         <Home />
       </Suspense>
     ),
@@ -82,7 +73,7 @@ const publicRoutes = [
   {
     path: "/destinations",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Shimmer/>}>
         <Destinations />
       </Suspense>
     ),
@@ -91,7 +82,7 @@ const publicRoutes = [
   {
     path: "/contact",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<HomeShimmer/>}>
         <Contact/>
       </Suspense>
     ),
@@ -100,7 +91,7 @@ const publicRoutes = [
   {
     path: "/hotels",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Shimmer/>}>
         <Hotels/>
       </Suspense>
     ),
@@ -118,7 +109,7 @@ const publicRoutes = [
   {
     path: "/about",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Shimmer/>}>
         <About/>
       </Suspense>
     ),

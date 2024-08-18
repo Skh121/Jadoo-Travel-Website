@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Sabin from "../../../assets/images/sabinPto.jpg";
-import destination2 from "../../../assets/images/destination2.png";
-import destination3 from "../../../assets/images/destination3.png"
+import akash from "../../../assets/images/akash.jpg";
+import aryan from "../../../assets/images/aryan.jpg"
+import krishna from "../../../assets/images/krishna.png"
+import saugat from "../../../assets/images/saugat.png"
 import Footer from "../Footer";
 import Nav from "../../Pages/Nav";
 
@@ -52,7 +54,7 @@ const About = () => {
       <div className="about-us-section">
   <h2 className="about-us-title">About Us</h2>
   <div className="about-us-grid">
-    {[Sabin, destination2, destination3, Sabin].map(
+    {[krishna, akash, aryan, saugat].map(
       (img, index) => (
         <div key={index} className="about-us-image-container">
           <img src={img} alt={`img ${index + 1}`} className="about-us-image" />
@@ -70,7 +72,7 @@ const About = () => {
     </div>
     <div className="about-us-image-container main-image">
       <img
-        src={destination2}
+        src={Sabin}
         alt="Mission Image"
         className="about-us-image"
       />

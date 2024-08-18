@@ -1,6 +1,6 @@
 import x from "../../../assets/images/x.png";
 import Logo from "../../../assets/images/Logo.png";
-
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useRef } from "react";
 import { contextApi } from "../../../context";
 
@@ -9,7 +9,7 @@ const Sidebar = () => {
   const { closeSidebar, isSidebarOpen } = useContext(contextApi);
 
   const sidebars = isSidebarOpen ? `showSidebar sidebar` : "sidebar";
-  
+
   useEffect(() => {
     const changingSize = () => {
       const sidebarWidth = sidebarRef.current?.getBoundingClientRect();
@@ -42,32 +42,32 @@ const Sidebar = () => {
         <ul className="sidebar__menu">
           <li className="sidebar__list">
             <button onClick={closeSidebar}>
-              <a href="#destinations">Destinations</a>
+              <Link to="/destinations">Destinations</Link>
             </button>
           </li>
           <li className="sidebar__list">
             <button onClick={closeSidebar}>
-              <a href="#hotels">Hotels</a>
+              <Link to="/hotels">Hotels</Link>
             </button>
           </li>
           <li className="sidebar__list">
             <button onClick={closeSidebar}>
-              <a href="#flights">Flights</a>
+              <Link to="/about">About Us</Link>
             </button>
           </li>
           <li className="sidebar__list">
             <button onClick={closeSidebar}>
-              <a href="#bookings">Bookings</a>
+              <Link to="/bookings">Bookings</Link>
             </button>
           </li>
           <li className="sidebar__list">
             <button onClick={closeSidebar}>
-              <a href="#login">Login</a>
+              <Link to="/contact">Contact</Link>
             </button>
           </li>
           <li className="sidebar__list">
             <button onClick={closeSidebar}>
-              <a href="#signup">Sign up</a>
+              <Link to="/login">Login</Link>
             </button>
           </li>
         </ul>

@@ -57,7 +57,6 @@ const Nav = () => {
           Destinations
         </a>
         <a href="#destinations">Hotels</a>
-        <a href="#brands">Flights</a>
         <a href="#bookings">Bookings</a>
         <a href="#">Login</a>
         <a className="dropdown__signup" href="#">
